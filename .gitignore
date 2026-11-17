@@ -1,0 +1,21 @@
+# Bloqueia o envio do banco de dados de testes para o GitHub
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# Bloqueia pastas temporárias de compilação e logs
+target/
+dependency-reduced-pom.xml
+hs_err_pid*.log
+replay_pid*.log
+
+# Bloqueia arquivos internos da IDE
+.vscode/
+.idea/
+*.iml
+.classpath
+.project
+.settings/

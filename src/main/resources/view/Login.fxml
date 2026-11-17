@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pdv.controller.LoginController" stylesheets="@estilo.css">
+    <padding>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
+    </padding>
+    
+    <!-- WHITE-LABEL INJETADO (fx:id="lblNomeEmpresa") -->
+    <Label fx:id="lblNomeEmpresa" text="TechStoreERP" styleClass="titulo"/>
+    <Label text="Acesse com suas credenciais"/>
+    
+    <VBox spacing="5.0" maxWidth="280.0">
+        <Label text="Usuário:"/>
+        <TextField fx:id="txtUsuario" promptText="Ex: admin"/>
+    </VBox>
+    
+    <VBox spacing="5.0" maxWidth="280.0">
+        <Label text="Senha:"/>
+        <HBox spacing="6.0" alignment="CENTER_LEFT">
+            <StackPane HBox.hgrow="ALWAYS">
+                <PasswordField fx:id="txtSenha" promptText="Sua senha"/>
+                <TextField fx:id="txtSenhaVisivel" promptText="Sua senha" visible="false" managed="false"/>
+            </StackPane>
+            <Button fx:id="btnMostrarSenha" text="Ver" onAction="#alternarVisibilidadeSenha" styleClass="btn-olho" prefWidth="90.0" minWidth="90.0">
+                <tooltip>
+                    <Tooltip text="Mostrar / Ocultar senha"/>
+                </tooltip>
+            </Button>
+        </HBox>
+    </VBox>
+    
+    <Button text="ENTRAR" onAction="#fazerLogin" prefWidth="280.0" defaultButton="true" styleClass="btn-primario"/>
+    <Label fx:id="lblMensagem" textFill="#ff5252" wrapText="true" maxWidth="280.0" alignment="CENTER"/>
+</VBox>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pdv.controller.FinanceiroController" stylesheets="@estilo.css">
+    
+    <Label text="Gestão Financeira e Contas" styleClass="titulo-tela"/>
+
+    <!-- Cards de Resumo do Caixa (Mantidos do seu código original) -->
+    <HBox spacing="10.0">
+        <!-- Entradas -->
+        <VBox styleClass="card" HBox.hgrow="ALWAYS" style="-fx-border-color: #2ed573; -fx-border-width: 0 0 0 4; -fx-padding: 10 15;">
+            <Label text="TOTAL DE ENTRADAS" style="-fx-text-fill: #8e8e9e; -fx-font-weight: bold; -fx-font-size: 11px;"/>
+            <Label fx:id="lblTotalEntradas" text="R$ 0,00" style="-fx-text-fill: #2ed573; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+        </VBox>
+        <!-- Saídas -->
+        <VBox styleClass="card" HBox.hgrow="ALWAYS" style="-fx-border-color: #ff4757; -fx-border-width: 0 0 0 4; -fx-padding: 10 15;">
+            <Label text="TOTAL DE SAÍDAS" style="-fx-text-fill: #8e8e9e; -fx-font-weight: bold; -fx-font-size: 11px;"/>
+            <Label fx:id="lblTotalSaidas" text="R$ 0,00" style="-fx-text-fill: #ff4757; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+        </VBox>
+        <!-- Saldo -->
+        <VBox styleClass="card" HBox.hgrow="ALWAYS" style="-fx-border-color: #2196F3; -fx-border-width: 0 0 0 4; -fx-padding: 10 15;">
+            <Label text="SALDO EM CAIXA" style="-fx-text-fill: #8e8e9e; -fx-font-weight: bold; -fx-font-size: 11px;"/>
+            <Label fx:id="lblSaldo" text="R$ 0,00" style="-fx-text-fill: #2196F3; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+        
+        <!-- Coluna Esquerda -->
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" prefWidth="300.0" minWidth="300.0" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+            <VBox spacing="12.0" styleClass="card">
+                <Label text="Lançar Transação" styleClass="subtitulo"/>
+                <Separator styleClass="separador"/>
+
+                <VBox spacing="2.0">
+                    <Label text="Tipo"/>
+                    <ComboBox fx:id="cbTipoTransacao" maxWidth="Infinity"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="Categoria (Ex: Conta de Luz, Aluguel)"/>
+                    <TextField fx:id="txtCategoria" promptText="Categoria"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="Descrição / Motivo"/>
+                    <TextField fx:id="txtDescricao" promptText="Detalhes da conta"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="Valor Total (R$)"/>
+                    <TextField fx:id="txtValor" promptText="0,00"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="Vencimento"/>
+                    <DatePicker fx:id="dpVencimento" maxWidth="Infinity"/>
+                </VBox>
+                
+                <VBox spacing="2.0">
+                    <Label text="Status Inicial"/>
+                    <ComboBox fx:id="cbStatus" maxWidth="Infinity"/>
+                </VBox>
+
+                <Button text="Registrar Transação" onAction="#registrarTransacao" maxWidth="Infinity" styleClass="btn-primario"/>
+                <Label fx:id="lblStatusAviso" wrapText="true" alignment="CENTER" maxWidth="Infinity"/>
+            </VBox>
+        </ScrollPane>
+
+        <!-- Coluna Direita -->
+        <VBox spacing="10.0" styleClass="card" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label text="Histórico de Contas e Fiados" styleClass="subtitulo"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <ComboBox fx:id="cbFiltroStatus" onAction="#carregarTabela" prefWidth="170.0" minWidth="170.0"/>
+            </HBox>
+            
+            <TableView fx:id="tabelaFinanceiro" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colData" text="Data" prefWidth="90.0"/>
+                    <TableColumn fx:id="colTipo" text="Tipo" prefWidth="80.0"/>
+                    <TableColumn fx:id="colDescricao" text="Descrição / Cliente" prefWidth="250.0"/>
+                    <TableColumn fx:id="colValor" text="Valor Total" prefWidth="90.0"/>
+                    
+                    <!-- ADICIONADO NO NÍVEL 2: COLUNA JÁ PAGO -->
+                    <TableColumn fx:id="colPago" text="Já Pago" prefWidth="90.0"/>
+                    
+                    <TableColumn fx:id="colStatus" text="Status" prefWidth="90.0"/>
+                </columns>
+            </TableView>
+            
+            <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                <Button text="🗑️ Excluir Lançamento" onAction="#excluirTransacao" styleClass="btn-perigo"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <!-- ATUALIZADO NO NÍVEL 2: BOTÃO DE BAIXA PARCIAL -->
+                <Button text="✅ Receber / Pagar Parcela (Baixa)" onAction="#marcarComoPago" styleClass="btn-sucesso"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>

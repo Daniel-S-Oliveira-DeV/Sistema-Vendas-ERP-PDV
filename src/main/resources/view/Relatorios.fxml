@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pdv.controller.RelatoriosController" stylesheets="@estilo.css">
+    
+    <Label text="Relatórios Gerenciais" styleClass="titulo-tela"/>
+
+    <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+        <!-- Coluna Esquerda: Filtro e Botões -->
+        <VBox spacing="15.0" styleClass="card" prefWidth="300.0" minWidth="300.0">
+            <Label text="Filtro de Período" styleClass="subtitulo"/>
+            <Separator styleClass="separador"/>
+
+            <VBox spacing="5.0">
+                <Label text="Data Inicial"/>
+                <DatePicker fx:id="dpDataInicial" maxWidth="Infinity"/>
+            </VBox>
+
+            <VBox spacing="5.0">
+                <Label text="Data Final"/>
+                <DatePicker fx:id="dpDataFinal" maxWidth="Infinity"/>
+            </VBox>
+            
+            <Label text="Gerar Relatórios" styleClass="subtitulo" style="-fx-padding: 10 0 0 0;"/>
+            
+            <VBox spacing="8.0">
+                <Button text="📄 Vendas (PDV)" onAction="#gerarRelatorioVendas" styleClass="btn-primario" maxWidth="Infinity"/>
+                <Button text="📈 Financeiro (Caixa)" onAction="#gerarRelatorioFinanceiro" styleClass="btn-sucesso" maxWidth="Infinity"/>
+                <Button text="📦 Movimentação de Estoque" onAction="#gerarRelatorioEstoque" style="-fx-background-color: #f39c12; -fx-text-fill: white;" maxWidth="Infinity"/>
+                <Button text="🗑️ Perdas e Ajustes" onAction="#gerarRelatorioPerdas" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" maxWidth="Infinity"/>
+                <Button text="📓 Fiados Pendentes (Por Cliente)" onAction="#gerarRelatorioFiados" style="-fx-background-color: #9b59b6; -fx-text-fill: white;" maxWidth="Infinity"/>
+            </VBox>
+            
+            <Region VBox.vgrow="ALWAYS"/>
+            <Label fx:id="lblStatus" wrapText="true" alignment="CENTER" maxWidth="Infinity"/>
+        </VBox>
+
+        <!-- Coluna Direita: Histórico -->
+        <VBox spacing="15.0" styleClass="card" HBox.hgrow="ALWAYS">
+            
+            <Label text="Histórico de Relatórios Gerados" styleClass="subtitulo"/>
+            <Label text="Os arquivos originais estão em: Documentos / TechStoreERP_Relatorios" style="-fx-text-fill: #8e8e9e;"/>
+            
+            <!-- Tabela de Histórico (Agora preenche todo o espaço vazio) -->
+            <TableView fx:id="tabelaHistorico" VBox.vgrow="ALWAYS" style="-fx-margin-top: 10;">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn fx:id="colDataGeracao" text="Data de Geração" prefWidth="140.0"/>
+                    <TableColumn fx:id="colTipo" text="Tipo" prefWidth="130.0"/>
+                    <TableColumn fx:id="colPeriodo" text="Período" prefWidth="180.0"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                <Button text="🗑️ Limpar Histórico" onAction="#limparHistorico" styleClass="btn-perigo"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="📂 Abrir Pasta" onAction="#abrirPastaRelatorios" styleClass="btn-neutro"/>
+                <Button text="📄 Abrir PDF Selecionado" onAction="#abrirRelatorioSelecionado" styleClass="btn-primario"/>
+            </HBox>
+            
+        </VBox>
+    </HBox>
+</VBox>

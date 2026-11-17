@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pdv.controller.ClientesController" stylesheets="@estilo.css">
+    
+    <HBox alignment="CENTER_LEFT" spacing="20.0">
+        <Label text="Cadastro de Clientes" styleClass="titulo-tela"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="txtBusca" promptText="Pesquisar por nome ou CPF..." prefWidth="250.0" onKeyReleased="#pesquisarClientes" styleClass="campo-busca"/>
+        <Button text="Novo Cliente" onAction="#limparFormulario" styleClass="btn-neutro" prefWidth="120.0"/>
+    </HBox>
+
+    <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+        
+        <!-- Formulário da Esquerda (Com ScrollPane para caber em qualquer monitor) -->
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" prefWidth="350.0" minWidth="350.0" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+            <VBox spacing="15.0" styleClass="card">
+                <Label text="Dados do Cliente" styleClass="subtitulo"/>
+                <Separator styleClass="separador"/>
+
+                <VBox spacing="5.0">
+                    <Label text="Nome Completo"/>
+                    <TextField fx:id="txtNome" promptText="Ex: João da Silva"/>
+                </VBox>
+
+                <VBox spacing="5.0">
+                    <Label text="CPF"/>
+                    <TextField fx:id="txtCpf" promptText="Somente números"/>
+                </VBox>
+
+                <VBox spacing="5.0">
+                    <Label text="Telefone / WhatsApp"/>
+                    <TextField fx:id="txtTelefone" promptText="(00) 00000-0000"/>
+                </VBox>
+
+                <VBox spacing="5.0">
+                    <Label text="Endereço"/>
+                    <TextField fx:id="txtEndereco" promptText="Rua, Número, Bairro"/>
+                </VBox>
+                
+                <Separator styleClass="separador"/>
+                <Label text="Controle de Fiado" styleClass="subtitulo"/>
+
+                <!-- NOVOS CAMPOS DE LIMITE DE CRÉDITO -->
+                <HBox spacing="15.0">
+                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <Label text="Limite (R$)"/>
+                        <TextField fx:id="txtLimite" promptText="0.00"/>
+                    </VBox>
+                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <Label text="Crédito Usado (R$)"/>
+                        <TextField fx:id="txtCreditoUsado" promptText="0.00" disable="true" style="-fx-font-weight: bold;"/>
+                    </VBox>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <HBox spacing="15.0">
+                    <Button text="Salvar" onAction="#salvarCliente" HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="btn-primario"/>
+                    <Button text="Excluir" onAction="#excluirCliente" HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="btn-perigo"/>
+                </HBox>
+                <Label fx:id="lblStatus" wrapText="true" alignment="CENTER" maxWidth="Infinity"/>
+            </VBox>
+        </ScrollPane>
+
+        <!-- Tabela da Direita -->
+        <VBox spacing="10.0" styleClass="card" HBox.hgrow="ALWAYS">
+            <Label text="Clientes Registrados" styleClass="subtitulo"/>
+            
+            <ScrollPane fitToHeight="true" fitToWidth="false" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="NEVER" hbarPolicy="AS_NEEDED">
+                <TableView fx:id="tabelaClientes" prefHeight="400.0" minWidth="800.0">
+                    <columns>
+                        <TableColumn fx:id="colNome" text="Nome" prefWidth="200.0"/>
+                        <TableColumn fx:id="colCpf" text="CPF" prefWidth="120.0"/>
+                        <TableColumn fx:id="colTelefone" text="Telefone" prefWidth="120.0"/>
+                        
+                        <!-- NOVAS COLUNAS NA TABELA -->
+                        <TableColumn fx:id="colLimite" text="Lim. Crédito" prefWidth="100.0"/>
+                        <TableColumn fx:id="colDisponivel" text="Saldo Dispon." prefWidth="100.0"/>
+                        
+                        <TableColumn fx:id="colEndereco" text="Endereço" prefWidth="160.0"/>
+                    </columns>
+                </TableView>
+            </ScrollPane>
+        </VBox>
+    </HBox>
+</VBox>

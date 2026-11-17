@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane fx:id="rootStackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pdv.controller.PDVController" stylesheets="@estilo.css" style="-fx-background-color: #121215;">
+    
+    <!-- TELA PRINCIPAL DO PDV (Fundo preto #121215 idêntico ao restante do sistema) -->
+    <VBox fx:id="rootPane" spacing="20.0" style="-fx-background-color: #121215;">
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Label text="Frente de Caixa (PDV)" styleClass="titulo-tela"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="[F5] Histórico e Estorno" onAction="#abrirPainelEstorno" styleClass="btn-neutro"/>
+        </HBox>
+
+        <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+            
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" prefWidth="350.0" minWidth="350.0" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+                <VBox spacing="15.0">
+                    
+                    <VBox spacing="15.0" styleClass="card">
+                        <Label text="Lançar Produto" styleClass="subtitulo"/>
+                        
+                        <VBox spacing="5.0">
+                            <Label text="[F1] Código, Leitor ou Nome:"/>
+                            <StackPane alignment="TOP_LEFT">
+                                <TextField fx:id="txtBuscaProduto" promptText="Digite ou bipe aqui..." onKeyPressed="#navegarSugestoes"/>
+                                <ListView fx:id="listaSugestoes" visible="false" maxHeight="150.0" onKeyPressed="#selecionarSugestaoTeclado" styleClass="lista-sugestoes">
+                                    <StackPane.margin><Insets top="35.0"/></StackPane.margin>
+                                </ListView>
+                            </StackPane>
+                        </VBox>
+
+                        <HBox spacing="15.0" alignment="BOTTOM_LEFT">
+                            <VBox spacing="5.0" prefWidth="80.0">
+                                <Label text="Qtd."/>
+                                <TextField fx:id="txtQuantidade" text="1" onKeyPressed="#enterNoQtd"/>
+                            </VBox>
+                            <Button text="Adicionar" onAction="#adicionarItemFiltro" styleClass="btn-primario" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        </HBox>
+                        <Label fx:id="lblStatus" wrapText="true" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="15.0" styleClass="card">
+                        <Label text="Finalizar Venda" styleClass="subtitulo"/>
+                        
+                        <HBox spacing="10.0">
+                            <Label text="Subtotal:" style="-fx-font-size: 14px; -fx-text-fill: #8e8e9e;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblSubtotal" text="R$ 0,00" style="-fx-font-size: 14px; -fx-text-fill: #8e8e9e;"/>
+                        </HBox>
+
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                            <Label text="[F3] Desconto (R$):" style="-fx-font-size: 14px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <TextField fx:id="txtDesconto" text="0.00" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                        </HBox>
+                        
+                        <Separator styleClass="separador"/>
+
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                            <Label text="TOTAL:" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblTotal" text="R$ 0,00" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2ed573;"/>
+                        </HBox>
+
+                        <VBox spacing="5.0">
+                            <Label text="Forma de Pagamento"/>
+                            <ComboBox fx:id="cbFormaPagamento" maxWidth="Infinity"/>
+                        </VBox>
+                        
+                        <VBox spacing="10.0" fx:id="boxFiado" managed="false" visible="false">
+                            <VBox spacing="5.0">
+                                <Label text="Buscar Cliente Registrado"/>
+                                <StackPane alignment="TOP_LEFT">
+                                    <TextField fx:id="txtBuscaCliente" promptText="Digite nome ou CPF..." onKeyPressed="#navegarSugestoesCliente"/>
+                                    <ListView fx:id="listaSugestoesCliente" visible="false" maxHeight="120.0" onKeyPressed="#selecionarSugestaoClienteTeclado" styleClass="lista-sugestoes">
+                                        <StackPane.margin><Insets top="35.0"/></StackPane.margin>
+                                    </ListView>
+                                </StackPane>
+                            </VBox>
+
+                            <HBox spacing="15.0">
+                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                    <Label text="Vencimento"/>
+                                    <DatePicker fx:id="dpVencimentoFiado" maxWidth="Infinity"/>
+                                </VBox>
+                                <VBox spacing="5.0" prefWidth="80.0">
+                                    <Label text="Juros (%)"/>
+                                    <TextField fx:id="txtJurosFiado" promptText="0.0"/>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+
+                        <HBox spacing="10.0" style="-fx-padding: 10 0 0 0;">
+                            <Button text="[F2] Cancelar" onAction="#cancelarVenda" styleClass="btn-perigo" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                            <Button text="[F12] Concluir" onAction="#finalizarVenda" styleClass="btn-sucesso" prefHeight="40.0" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+
+            <VBox spacing="10.0" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label text="Itens da Venda Atual" styleClass="subtitulo"/>
+                <TableView fx:id="tabelaCarrinho" VBox.vgrow="ALWAYS">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="colCodigo" text="Cód" prefWidth="60.0"/>
+                        <TableColumn fx:id="colNome" text="Descrição" prefWidth="200.0"/>
+                        <TableColumn fx:id="colQtd" text="Qtd" prefWidth="50.0"/>
+                        <TableColumn fx:id="colUnitario" text="Preço Unit." prefWidth="90.0"/>
+                        <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="90.0"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                    <Button text="[F4] Alterar Qtd." onAction="#alterarQuantidadeItem" styleClass="btn-neutro"/>
+                    <Button text="[DEL] Remover Item" onAction="#removerItem" styleClass="btn-perigo"/>
+                </HBox>
+            </VBox>
+            
+        </HBox>
+    </VBox>
+
+    <!-- PAINEL OCULTO DE ESTORNO (NÍVEL 2) -->
+    <VBox fx:id="painelEstorno" visible="false" style="-fx-background-color: rgba(0, 0, 0, 0.7);" alignment="CENTER">
+        <VBox spacing="15.0" styleClass="card" maxWidth="800.0" maxHeight="600.0" VBox.vgrow="ALWAYS" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Histórico de Vendas e Estorno" styleClass="titulo-tela" style="-fx-font-size: 22px;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="X" onAction="#fecharPainelEstorno" styleClass="btn-perigo" style="-fx-font-weight: bold;"/>
+            </HBox>
+            <Separator styleClass="separador"/>
+            
+            <HBox spacing="10.0">
+                <TextField fx:id="txtBuscaEstorno" promptText="Buscar por ID da Venda..." onKeyReleased="#carregarVendasEstorno" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <TableView fx:id="tabelaEstorno" VBox.vgrow="ALWAYS">
+                <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+                <columns>
+                    <TableColumn fx:id="colEstornoId" text="Cupom Nº" prefWidth="80.0"/>
+                    <TableColumn fx:id="colEstornoData" text="Data/Hora" prefWidth="150.0"/>
+                    <TableColumn fx:id="colEstornoTotal" text="Total (R$)" prefWidth="100.0"/>
+                    <TableColumn fx:id="colEstornoPag" text="Pagamento" prefWidth="120.0"/>
+                    <TableColumn fx:id="colEstornoStatus" text="Status" prefWidth="100.0"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="15.0" alignment="CENTER_RIGHT">
+                <Label fx:id="lblStatusEstorno" wrapText="true" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                <Button text="Cancelar Venda / Estornar" onAction="#confirmarEstorno" styleClass="btn-perigo" prefHeight="40.0"/>
+            </HBox>
+        </VBox>
+    </VBox>
+
+</StackPane>

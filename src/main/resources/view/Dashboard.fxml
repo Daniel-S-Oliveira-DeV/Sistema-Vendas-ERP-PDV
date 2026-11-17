@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pdv.controller.DashboardController" stylesheets="@estilo.css" prefWidth="1024.0" prefHeight="768.0">
+    
+    <!-- Menu Lateral Moderno -->
+    <left>
+        <VBox spacing="12.0" styleClass="sidebar" prefWidth="240.0">
+            <padding>
+                <Insets top="25.0" left="15.0" right="15.0" bottom="25.0"/>
+            </padding>
+            
+            <Label fx:id="lblNomeEmpresa" text="TechStoreERP" styleClass="titulo" wrapText="true"/>
+            <Label text="Gestão &amp; PDV" style="-fx-text-fill: #8e8e9e; -fx-font-size: 12px;"/>
+            
+            <Separator style="-fx-opacity: 0.2;"/>
+            
+            <!-- NOVO BOTÃO DE CAIXA/TURNO -->
+            <Button text="Controle de Caixa (Turno)" onAction="#abrirCaixa" maxWidth="Infinity" styleClass="menu-btn" style="-fx-font-weight: bold;"/>
+            
+            <Button text="Frente de Caixa (PDV)" onAction="#abrirPDV" maxWidth="Infinity" styleClass="menu-btn"/>
+            <Button text="Produtos e Estoque" onAction="#abrirProdutos" maxWidth="Infinity" styleClass="menu-btn"/>
+            
+            <!-- NOVO BOTÃO DE CLIENTES -->
+            <Button text="Clientes" onAction="#abrirClientes" maxWidth="Infinity" styleClass="menu-btn"/>
+            
+            <Button text="Financeiro e Contas" onAction="#abrirFinanceiro" maxWidth="Infinity" styleClass="menu-btn"/>
+            <Button text="Relatórios" onAction="#abrirRelatorios" maxWidth="Infinity" styleClass="menu-btn"/>
+            <Button text="Configurações" onAction="#abrirConfiguracoes" maxWidth="Infinity" styleClass="menu-btn"/>
+            
+            <Region VBox.vgrow="ALWAYS" />
+            
+            <Button text="Sair do Sistema" onAction="#sairSistema" maxWidth="Infinity" styleClass="btn-perigo"/>
+        </VBox>
+    </left>
+    
+    <!-- Área Central -->
+    <center>
+        <StackPane fx:id="areaCentral" styleClass="area-central">
+            
+            <!-- Agrupador Centralizado -->
+            <VBox alignment="CENTER" spacing="20.0">
+                <Label text="Bem-vindo! Selecione um módulo no menu lateral para começar." style="-fx-text-fill: #888888; -fx-font-size: 18px;"/>
+                
+                <!-- ALERTA FIXO DE INADIMPLÊNCIA (Nível 3) -->
+                <VBox fx:id="boxAlertaFiados" visible="false" managed="false" alignment="CENTER" style="-fx-background-color: #ff5252; -fx-padding: 20; -fx-background-radius: 10; -fx-max-width: 600;">
+                    <Label text="⚠ ATENÇÃO: HÁ CLIENTES COM FIADO VENCIDO!" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <Label fx:id="lblAlertaFiados" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 0 0 0;" wrapText="true" alignment="CENTER"/>
+                </VBox>
+            </VBox>
+            
+        </StackPane>
+    </center>
+    
+</BorderPane>

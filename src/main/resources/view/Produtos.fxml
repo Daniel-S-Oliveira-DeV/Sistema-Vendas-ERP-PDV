@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pdv.controller.ProdutosController" stylesheets="@estilo.css">
+    
+    <!-- Cabeçalho e Busca -->
+    <HBox alignment="CENTER_LEFT" spacing="20.0">
+        <Label text="Estoque e Produtos" styleClass="titulo-tela"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="txtBusca" promptText="Pesquisar..." prefWidth="250.0" onKeyReleased="#pesquisarProdutos" styleClass="campo-busca"/>
+        <Button text="Novo" onAction="#limparFormulario" styleClass="btn-neutro" prefWidth="100.0"/>
+    </HBox>
+
+    <!-- Área Principal -->
+    <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+        
+        <!-- Card Esquerdo: Cadastro MAIS LARGO, ENVOLTO EM SCROLL PARA CABER TUDO -->
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" prefWidth="400.0" minWidth="400.0" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+            <VBox spacing="15.0" styleClass="card">
+                <Label text="Detalhes do Produto" styleClass="subtitulo"/>
+                <Separator styleClass="separador"/>
+
+                <VBox spacing="5.0">
+                    <Label text="Código de Barras (EAN)"/>
+                    <TextField fx:id="txtCodigoBarras" promptText="Ex: 7891000100103"/>
+                </VBox>
+
+                <VBox spacing="5.0">
+                    <Label text="Nome ou Descrição"/>
+                    <TextField fx:id="txtNome" promptText="Ex: Arroz Tipo 1 5Kg"/>
+                </VBox>
+
+                <HBox spacing="15.0">
+                    <VBox spacing="5.0" prefWidth="100.0">
+                        <Label text="Unidade"/>
+                        <ComboBox fx:id="cbUnidade" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <Label text="NCM (Fiscal)"/>
+                        <TextField fx:id="txtNcm" promptText="00000000"/>
+                    </VBox>
+                </HBox>
+                
+                <!-- NÍVEL 2: CATEGORIA E FORNECEDOR -->
+                <HBox spacing="15.0">
+                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <Label text="Categoria"/>
+                        <TextField fx:id="txtCategoria" promptText="Ex: Alimentos, Limpeza..."/>
+                    </VBox>
+                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <Label text="Fornecedor Principal"/>
+                        <TextField fx:id="txtFornecedor" promptText="Ex: Atacadão S/A"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="15.0">
+                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <Label text="Preço Custo (R$)"/>
+                        <TextField fx:id="txtPrecoCusto" promptText="0.00"/>
+                    </VBox>
+                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <Label text="Preço Venda (R$)"/>
+                        <TextField fx:id="txtPrecoVenda" promptText="0.00"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="15.0">
+                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <Label text="Estoque Atual (Qtd)" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtEstoqueInicial" promptText="0"/>
+                    </VBox>
+                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <Label text="Estoque Mín."/>
+                        <TextField fx:id="txtEstoqueMinimo" promptText="5"/>
+                    </VBox>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <!-- Botões do mesmo tamanho -->
+                <HBox spacing="15.0">
+                    <Button text="Salvar" onAction="#salvarProduto" HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="btn-primario"/>
+                    <Button text="Excluir" onAction="#excluirProduto" HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="btn-perigo"/>
+                </HBox>
+                
+                <Label fx:id="lblStatus" wrapText="true" alignment="CENTER" maxWidth="Infinity"/>
+            </VBox>
+        </ScrollPane>
+
+        <!-- Área Direita: Tabela e Movimentação -->
+        <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+            
+            <VBox spacing="10.0" styleClass="card" VBox.vgrow="ALWAYS">
+                <Label text="Lista de Produtos em Estoque" styleClass="subtitulo"/>
+                
+                <ScrollPane fitToHeight="true" fitToWidth="false" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="NEVER" hbarPolicy="AS_NEEDED">
+                    <TableView fx:id="tabelaProdutos" prefHeight="400.0" minWidth="950.0">
+                        <columns>
+                            <TableColumn fx:id="colCodigo" text="Código" prefWidth="120.0"/>
+                            <TableColumn fx:id="colNome" text="Produto" prefWidth="250.0"/>
+                            <TableColumn fx:id="colCategoria" text="Categoria" prefWidth="120.0"/>
+                            <TableColumn fx:id="colUnidade" text="UN" prefWidth="50.0"/>
+                            <TableColumn fx:id="colCusto" text="Custo" prefWidth="80.0"/>
+                            <TableColumn fx:id="colVenda" text="Venda" prefWidth="80.0"/>
+                            <TableColumn fx:id="colEstoque" text="Qtd Estoque" prefWidth="90.0"/>
+                            <TableColumn fx:id="colMinimo" text="Mín." prefWidth="50.0"/>
+                            <TableColumn fx:id="colFornecedor" text="Fornecedor" prefWidth="150.0"/>
+                        </columns>
+                    </TableView>
+                </ScrollPane>
+            </VBox>
+
+            <VBox spacing="10.0" styleClass="card">
+                <Label text="Movimentar Estoque Manualmente" styleClass="subtitulo"/>
+                <HBox spacing="15.0" alignment="BOTTOM_LEFT">
+                    <VBox spacing="5.0" prefWidth="130.0">
+                        <Label text="Ação"/>
+                        <ComboBox fx:id="cbTipoMovimento" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="5.0" prefWidth="100.0">
+                        <Label text="Qtd."/>
+                        <TextField fx:id="txtQtdMovimento" promptText="0"/>
+                    </VBox>
+                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <Label text="Observação"/>
+                        <TextField fx:id="txtMotivoMovimento" promptText="Motivo (Opcional)"/>
+                    </VBox>
+                    <Button text="Confirmar" onAction="#registrarMovimentacao" prefWidth="120.0" styleClass="btn-sucesso"/>
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </HBox>
+</VBox>

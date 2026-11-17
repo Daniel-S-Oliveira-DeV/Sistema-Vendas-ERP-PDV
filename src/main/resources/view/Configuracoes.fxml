@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pdv.controller.ConfiguracoesController" stylesheets="@estilo.css">
+    <VBox spacing="20.0">
+        
+        <Label text="Configurações e Segurança" styleClass="titulo-tela"/>
+
+        <!-- LINHA SUPERIOR: BACKUP E WHITE-LABEL -->
+        <HBox spacing="20.0">
+            
+            <!-- Bloco de Backup de Banco de Dados -->
+            <VBox spacing="15.0" styleClass="card" prefWidth="400.0" minWidth="350.0">
+                <Label text="Backup e Restauração de Dados" styleClass="subtitulo"/>
+                <Label text="O seu ERP roda 100% offline. Por segurança, salve um Backup em um pendrive ou nuvem semanalmente para nunca perder o cadastro de clientes e as vendas!" wrapText="true" style="-fx-text-fill: #8e8e9e;"/>
+                
+                <Separator styleClass="separador"/>
+
+                <Button text="💾 Exportar Backup (Salvar no Pendrive)" onAction="#exportarBackup" styleClass="btn-primario" maxWidth="Infinity" prefHeight="45.0"/>
+                <Button text="📂 Importar Backup (Restaurar Dados)" onAction="#importarBackup" styleClass="btn-perigo" maxWidth="Infinity" prefHeight="45.0"/>
+                
+                <Label fx:id="lblStatusBackup" wrapText="true" alignment="CENTER" maxWidth="Infinity" style="-fx-padding: 5 0 0 0;"/>
+            </VBox>
+
+            <!-- Bloco de Personalização da Empresa (White-Label) -->
+            <VBox spacing="15.0" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label text="Personalização do Sistema (White-Label)" styleClass="subtitulo"/>
+                <Label text="Defina os dados da empresa. Isso mudará o logotipo textual e o cabeçalho do sistema e dos cupons de venda." wrapText="true" style="-fx-text-fill: #8e8e9e;"/>
+                
+                <Separator styleClass="separador"/>
+                
+                <VBox spacing="5.0">
+                    <Label text="Nome da Loja / Empresa (Aparece no menu lateral e login)"/>
+                    <TextField fx:id="txtNomeEmpresa" promptText="Ex: Sistema de Vendas e Controle de estoque"/>
+                </VBox>
+                
+                <VBox spacing="5.0">
+                    <Label text="CNPJ ou CPF (Opcional - Sairá no Cupom e Relatórios)"/>
+                    <TextField fx:id="txtDocumento" promptText="00.000.000/0000-00"/>
+                </VBox>
+                
+                <Region VBox.vgrow="ALWAYS"/>
+                
+                <Button text="Aplicar Novo Nome ao Sistema" onAction="#salvarConfiguracoes" styleClass="btn-sucesso" maxWidth="Infinity" prefHeight="45.0"/>
+                <Label fx:id="lblStatusConfig" wrapText="true" alignment="CENTER" maxWidth="Infinity" style="-fx-padding: 5 0 0 0;"/>
+            </VBox>
+            
+        </HBox>
+
+        <!-- LINHA INFERIOR: CADASTRO E CONTROLE DE USUÁRIOS -->
+        <VBox spacing="15.0" styleClass="card">
+            <Label text="Gerenciamento de Usuários e Controle de Acesso" styleClass="subtitulo"/>
+            <Label text="Cadastre novos operadores e administradores com login e senha próprios, ou selecione um usuário na tabela para alterar a senha ou remover o acesso." wrapText="true" style="-fx-text-fill: #8e8e9e;"/>
+            
+            <Separator styleClass="separador"/>
+
+            <HBox spacing="25.0">
+                <!-- Formulário de Novo Usuário -->
+                <VBox spacing="12.0" prefWidth="360.0" minWidth="320.0">
+                    <VBox spacing="5.0">
+                        <Label text="Nome de Usuário (Login)"/>
+                        <TextField fx:id="txtNovoUsuario" promptText="Ex: joao, caixa01, gerente..."/>
+                    </VBox>
+
+                    <VBox spacing="5.0">
+                        <Label text="Senha de Acesso"/>
+                        <PasswordField fx:id="txtNovaSenha" promptText="Digite a senha..."/>
+                    </VBox>
+
+                    <VBox spacing="5.0">
+                        <Label text="Nível de Permissão"/>
+                        <ComboBox fx:id="cbNivelAcesso" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <Button text="➕ Salvar / Atualizar Usuário" onAction="#salvarUsuario" styleClass="btn-primario" maxWidth="Infinity" prefHeight="42.0"/>
+                    <Label fx:id="lblStatusUsuario" wrapText="true" alignment="CENTER" maxWidth="Infinity"/>
+                </VBox>
+
+                <!-- Tabela de Usuários Cadastrados -->
+                <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                    <TableView fx:id="tabelaUsuarios" prefHeight="200.0" VBox.vgrow="ALWAYS">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                        <columns>
+                            <TableColumn fx:id="colUsuarioId" text="ID" prefWidth="50.0" maxWidth="70.0"/>
+                            <TableColumn fx:id="colUsuarioNome" text="Usuário (Login)" prefWidth="180.0"/>
+                            <TableColumn fx:id="colUsuarioNivel" text="Nível de Acesso" prefWidth="180.0"/>
+                        </columns>
+                    </TableView>
+
+                    <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                        <Button text="Limpar Campos" onAction="#limparCamposUsuario" styleClass="btn-neutro"/>
+                        <Button text="🗑 Excluir Usuário Selecionado" onAction="#excluirUsuario" styleClass="btn-perigo"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
+
+    </VBox>
+</ScrollPane>
